@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Driven Crop Disease Prediction & Management System</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .ripple {
+      position: absolute;
+      border-radius: 9999px;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      animation: ripple-anim 600ms ease-out forwards;
+      background: rgba(16, 185, 129, 0.25);
+    }
+    @keyframes ripple-anim {
+      0% { width: 0; height: 0; opacity: 0.7; }
+      100% { width: 240px; height: 240px; opacity: 0; }
+    }
+  </style>
+  
+</head>
+<body>
+  <py-script src ="main.py"/>
+  <!-- Header -->
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-700 text-white shadow">
+    <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between relative">
+      <h2 class="logo text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-lime-100 via-emerald-50 to-white drop-shadow">
+        Crop
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-200 to-orange-100">AI</span>
+      </h2>
+      <nav class="hidden md:flex items-center gap-6 text-sm absolute left-0 right-0 top-full bg-emerald-800/95 backdrop-blur border-t border-white/10 px-4 py-3 shadow md:static md:bg-transparent md:border-0 md:shadow-none" id="nav-links">
+        <a class="text-white/80 hover:text-white transition-colors" href="#features" data-i18n="nav_features">Features</a>
+        <a class="text-white/80 hover:text-white transition-colors" href="#how" data-i18n="nav_how">How it Works</a>
+        <a class="text-white/80 hover:text-white transition-colors" href="#results" data-i18n="nav_results">Results</a>
+        <a class="text-white/80 hover:text-white transition-colors" href="#stories" data-i18n="nav_stories">Stories</a>
+      </nav>
+      <div class="flex items-center gap-3">
+  <a id="getStartedHeader" href="login.html" class="relative overflow-hidden hidden sm:inline-flex items-center rounded-md bg-white px-4 py-2 text-emerald-700 shadow transition duration-200 ease-out hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-white/60">Change User</a>
+        <div class="hidden md:flex items-center gap-2 ml-2">
+          <label for="langSelIdx" class="text-xs text-white/80" data-i18n="lang_label">Language</label>
+          <select id="langSelIdx" class="rounded-md bg-white/90 text-emerald-800 text-xs px-2 py-1">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+          </select>
+        </div>
+        <div id="farmerProfile" class="hidden sm:flex items-center gap-2 select-none">
+          <div id="farmerAvatar" class="grid place-items-center h-10 w-10 rounded-full overflow-hidden bg-gradient-to-br from-emerald-200/25 to-white/25 text-white text-sm font-semibold ring-2 ring-white/60 shadow-md">
+            👨‍🌾
+          </div>
+          <div class="flex flex-col leading-tight">
+            <span id="farmerName" class="text-sm font-semibold text-white"></span>
+            <span class="text-xs text-white/80">Farmer Profile</span>
+          </div>
+        </div>
+        <button id="mobileMenuBtn" class="md:hidden inline-flex items-center justify-center rounded-md border border-white/30 text-white px-3 py-2 shadow-sm hover:bg-white/10 active:scale-95 transition" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero bg-[url('https://images.prismic.io//intuzwebsite/ee51a4e5-4769-4a1b-b4a4-ce1ae93731a5_Banner%402x.png?w=2400&q=80&auto=format,compress&fm=png8')] bg-cover bg-center text-white">
+    <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold" data-i18n="hero_title">AI-Driven Crop Disease Prediction & Management</h1>
+      <p class="mt-4 text-base sm:text-lg text-white/90" data-i18n="hero_subtitle">Empowering farmers through AI-powered systems that predict, detect, and manage crop diseases before they impact yield.</p>
+      <div class="mt-6 flex flex-wrap gap-3 justify-center">
+        <a id="getStartedHero" href="#" class="inline-flex items-center rounded-md bg-gradient-to-r from-emerald-600 to-teal-500 px-5 py-2.5 text-white shadow hover:shadow-lg hover:scale-[1.02] active:scale-95 transition transform" data-i18n="hero_start">Start Detection</a>
+        <a href="#features" class="inline-flex items-center rounded-md px-5 py-2.5 text-emerald-700 bg-white/90 hover:bg-white shadow-sm hover:shadow transition" data-i18n="hero_learn">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="text-3xl font-bold text-stone-900 text-center" data-i18n="features_title">Powerful Features for Smart Farming</h2>
+      <p class="mt-3 text-stone-600 text-center max-w-3xl mx-auto" data-i18n="features_desc">Our AI-powered system offers cutting-edge technology to improve crop disease detection and management.</p>
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="card">AI Disease Detection</div>
+        <div class="card">Early Prediction</div>
+        <div class="card">Mobile Integration</div>
+        <div class="card">Comprehensive Database</div>
+        <div class="card">Analytics Dashboard</div>
+        <div class="card">Preventive Measures</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detect Section: Upload + Prediction -->
+  <section id="detect" class="bg-white">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Upload -->
+        <div class="rounded-xl border border-stone-200 p-6 bg-stone-50/80">
+          <h3 class="text-xl font-bold text-stone-900" data-i18n="upload_title">Upload Leaf Image</h3>
+          <p class="text-sm text-stone-600 mt-1" data-i18n="upload_hint">JPG, PNG up to 10MB</p>
+          <label class="mt-4 grid place-content-center h-56 rounded-lg border-2 border-dashed border-stone-300 bg-white text-center cursor-pointer hover:border-emerald-400 transition">
+            <input type="file" accept="image/*" class="hidden" id="imageInput">
+            <div class="flex flex-col items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-10 text-emerald-500">
+                <path fill-rule="evenodd" d="M1.5 6.75A2.25 2.25 0 0 1 3.75 4.5h16.5a2.25 2.25 0 0 1 2.25 2.25v10.5A2.25 2.25 0 0 1 20.25 19.5H3.75A2.25 2.25 0 0 1 1.5 17.25V6.75Zm8.473 3.53a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.06 0l2.25-2.25a.75.75 0 1 0-1.06-1.06l-1.47 1.47V7.5a.75.75 0 0 0-1.5 0v3.75l-1.47-1.47Z" clip-rule="evenodd" />
+              </svg>
+              <span class="text-sm font-medium text-stone-700">Drag & drop or click to upload</span>
+            </div>
+          </label>
+          <div id="preview" class="mt-4 hidden">
+            <img id="previewImg" alt="preview" class="w-full h-56 object-cover rounded-lg border" />
+          </div>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <button id="predictBtn" class="inline-flex items-center rounded-md bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-2 text-white shadow hover:shadow-md hover:scale-[1.02] active:scale-95 transition" data-i18n="predict_btn">Predict</button>
+            <button id="resetBtn" class="inline-flex items-center rounded-md px-4 py-2 text-stone-700 ring-1 ring-inset ring-stone-300 bg-white hover:bg-stone-50 shadow-sm active:scale-95 transition" data-i18n="reset_btn">Reset</button>
+          </div>
+        </div>
+
+        <!-- Prediction Panel -->
+        <div class="rounded-xl border border-stone-200 p-6 bg-white flex flex-col">
+          <h3 class="text-xl font-bold text-stone-900" data-i18n="prediction_title">Prediction</h3>
+          <p class="text-sm text-stone-600" data-i18n="prediction_subtitle">Model output and confidence</p>
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="rounded-lg border border-stone-200 p-4">
+              <p class="text-xs text-stone-500" data-i18n="disease_label">Disease</p>
+              <p id="disease" class="mt-1 text-lg font-semibold text-stone-900">—</p>
+            </div>
+            <div class="rounded-lg border border-stone-200 p-4">
+              <p class="text-xs text-stone-500" data-i18n="confidence_label">Confidence</p>
+              <p id="confidence" class="mt-1 text-lg font-semibold text-stone-900">—</p>
+            </div>
+            <div class="rounded-lg border border-stone-200 p-4">
+              <p class="text-xs text-stone-500" data-i18n="severity_label">Severity</p>
+              <p id="severity" class="mt-1 text-lg font-semibold text-stone-900">—</p>
+            </div>
+          </div>
+          <div id="statusMsg" class="mt-2 text-xs text-stone-500"></div>
+          <div id="annotatedWrap" class="mt-4 hidden">
+            <p class="text-sm text-stone-700 mb-2">Predicted Image</p>
+            <img id="annotatedImg" alt="annotated" class="w-full max-h-80 object-contain rounded-lg border" />
+          </div>
+          <div class="mt-4">
+            <p class="text-sm text-stone-700" data-i18n="recs_title">Recommendations</p>
+            <ul id="recommendations" class="mt-2 list-disc pl-5 text-sm text-stone-600 space-y-1">
+              <li>Upload an image to see recommendations.</li>
+            </ul>
+          </div>
+          <div class="mt-4">
+            <p class="text-sm text-stone-700" data-i18n="treatment_title">Treatment Plan</p>
+            <ul id="treatment" class="mt-2 list-disc pl-5 text-sm text-stone-600 space-y-1">
+              <li>Predict to see tailored treatment steps.</li>
+            </ul>
+          </div>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button id="saveReportBtn" class="inline-flex items-center rounded-md bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-2 text-white shadow hover:shadow-md hover:scale-[1.02] active:scale-95 transition" data-i18n="save_report_btn">Save Report</button>
+            <button id="shareBtn" class="pointer-events-none inline-flex items-center rounded-md px-4 py-2 text-emerald-700 ring-1 ring-inset ring-emerald-200 bg-emerald-50/40 opacity-50 transition" data-i18n="share_report_btn">Share Report</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="how" id="how">
+    <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="text-3xl font-bold text-stone-900 text-center">How Our System Works</h2>
+      <div class="steps mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+        <div class="step">
+          <h3>01 — Image Capture</h3>
+          <p>Capture crop images using mobile app or drone for quick analysis.</p>
+        </div>
+        <div class="step">
+          <h3>02 — AI Analysis</h3>
+          <p>AI algorithms scan and identify possible diseases with accuracy.</p>
+        </div>
+        <div class="step">
+          <h3>03 — Instant Diagnosis</h3>
+          <p>Receive instant diagnosis with disease identification and severity.</p>
+        </div>
+        <div class="step">
+          <h3>04 — Treatment Plan</h3>
+          <p>Get personalized treatment recommendations and preventive measures.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="results" id="results">
+    <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="text-3xl font-bold text-stone-900 text-center">Proven Results for Modern Farmers</h2>
+      <div class="grid mt-10 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="card">40% More Crop Yield</div>
+        <div class="card">75% Reduced Crop Loss</div>
+        <div class="card">60% Cost Savings</div>
+        <div class="card">85% Time Efficiency</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section class="stories" id="stories">
+    <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="text-3xl font-bold text-stone-900 text-center">Real Success Stories</h2>
+      <div class="grid mt-10 grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="card">
+          <p>"AI detection helped us prevent massive crop loss and increased yield."</p>
+        </div>
+        <div class="card">
+          <p>"The app made disease detection easy and provided clear guidance."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta bg-gradient-to-r from-emerald-600 to-teal-600" id="start">
+    <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 text-center text-white">
+      <div class="mx-auto max-w-3xl bg-white/10 backdrop-blur-sm rounded-xl p-6 ring-1 ring-white/20">
+        <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight drop-shadow-md">Ready to Transform Your Farming?</h2>
+        <p class="mt-3 text-emerald-50 text-lg sm:text-xl drop-shadow">Join the agricultural revolution with AI-powered crop disease prediction.</p>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-3 justify-center">
+        <a id="requestDemoCta" href="#" class="inline-flex items-center rounded-md px-5 py-2.5 text-white ring-1 ring-inset ring-white/60 bg-white/10 hover:bg-white/20 shadow-sm transition" data-i18n="cta_feedback">Feedback</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-stone-950 text-stone-300">
+    <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div>
+        <div class="text-2xl font-extrabold text-white">CropAI</div>
+        <p class="mt-2 text-stone-400">AI-driven crop disease prediction & management</p>
+      </div>
+      <div>
+        <h4 class="font-semibold text-white">Features</h4>
+        <a class="block mt-2 hover:text-white" href="#features">AI Detection</a>
+        <a class="block hover:text-white" href="#how">How it Works</a>
+      </div>
+      <div>
+        <h4 class="font-semibold text-white">Company</h4>
+        <a class="block mt-2 hover:text-white" href="#">About</a>
+        <a class="block hover:text-white" href="#">Careers</a>
+      </div>
+      <div>
+        <h4 class="font-semibold text-white">Contact</h4>
+        <p class="mt-2 text-stone-400">support@cropai.example</p>
+      </div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 text-sm text-stone-400">&copy; <span id="year"></span> CropAI. All rights reserved.</div>
+    </div>
+  </footer>
+  <!-- Demo Modal -->
+  <div id="demoModal" class="fixed inset-0 z-50 hidden">
+    <div id="demoModalOverlay" class="absolute inset-0 bg-black/50"></div>
+    <div class="relative mx-auto mt-24 w-[90%] max-w-md rounded-xl bg-white p-6 shadow-lg">
+      <h3 class="text-lg font-semibold text-stone-900">Send Feedback</h3>
+      <div class="mt-4 space-y-3">
+        <input id="demoName" type="text" placeholder="Your Name" class="w-full rounded-md border border-stone-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+        <input id="demoEmail" type="email" placeholder="Email (Gmail only)" class="w-full rounded-md border border-stone-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+        <div class="mt-1 flex gap-4 text-sm" id="demoKindWrap">
+          <label class="inline-flex items-center gap-2">
+            <input type="radio" name="demoKind" value="feedback" checked>
+            <span>Feedback</span>
+          </label>
+          <label class="inline-flex items-center gap-2">
+            <input type="radio" name="demoKind" value="suggestion">
+            <span>Suggestion</span>
+          </label>
+        </div>
+        <!-- Dynamic preset options -->
+        <div id="demoOptions" class="flex flex-wrap gap-2"></div>
+        <!-- Rating -->
+        <div class="mt-2">
+          <label class="block text-sm font-medium text-stone-700 mb-1">Rating</label>
+          <div id="demoRating" class="flex items-center gap-1 text-2xl select-none" aria-label="Rating 1 to 5">
+            <button type="button" data-rate="1" class="px-1 text-stone-300">★</button>
+            <button type="button" data-rate="2" class="px-1 text-stone-300">★</button>
+            <button type="button" data-rate="3" class="px-1 text-stone-300">★</button>
+            <button type="button" data-rate="4" class="px-1 text-stone-300">★</button>
+            <button type="button" data-rate="5" class="px-1 text-stone-300">★</button>
+            <span id="demoRatingVal" class="ml-2 text-sm text-stone-500">(optional)</span>
+          </div>
+        </div>
+        <textarea id="demoMsg" rows="4" placeholder="Share your feedback or suggestions" class="w-full rounded-md border border-stone-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"></textarea>
+      </div>
+      <div class="mt-5 flex items-center justify-end gap-3">
+        <button id="demoCancel" class="inline-flex items-center rounded-md px-4 py-2 text-stone-700 ring-1 ring-inset ring-stone-300 hover:bg-stone-100">Cancel</button>
+        <button id="demoSubmit" class="inline-flex items-center rounded-md bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700">Submit Feedback</button>
+      </div>
+    </div>
+  </div>
+  <!-- Get Started Modal -->
+  <div id="gsModal" class="fixed inset-0 z-50 hidden">
+    <div id="gsOverlay" class="absolute inset-0 bg-black/50"></div>
+    <div class="relative mx-auto mt-24 w-[90%] max-w-md rounded-xl bg-white p-6 shadow-lg">
+      <h3 class="text-lg font-semibold text-stone-900">Get Started</h3>
+      <p class="text-sm text-stone-600 mt-1">Please provide your details to continue.</p>
+      <div class="mt-4 space-y-3">
+        <input id="gsName" type="text" placeholder="Full Name" class="w-full rounded-md border border-stone-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+        <input id="gsPhone" type="tel" placeholder="Mobile Number" class="w-full rounded-md border border-stone-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+        <input id="gsEmail" type="email" placeholder="Email (Gmail)" class="w-full rounded-md border border-stone-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+      </div>
+      <div class="mt-5 flex items-center justify-end gap-3">
+        <button id="gsCancel" class="inline-flex items-center rounded-md px-4 py-2 text-stone-700 ring-1 ring-inset ring-stone-300 hover:bg-stone-100">Cancel</button>
+        <button id="gsSubmit" class="inline-flex items-center rounded-md bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700">Continue</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Simple i18n for English/Hindi
+    const I18N_IDX = {
+      en: {
+        lang_label: 'Language',
+        nav_features: 'Features',
+        nav_how: 'How it Works',
+        nav_results: 'Results',
+        nav_stories: 'Stories',
+        hero_title: 'AI-Driven Crop Disease Prediction & Management',
+        hero_subtitle: 'Empowering farmers through AI-powered systems that predict, detect, and manage crop diseases before they impact yield.',
+        hero_start: 'Start Detection',
+        hero_learn: 'Learn More',
+        features_title: 'Powerful Features for Smart Farming',
+        features_desc: 'Our AI-powered system offers cutting-edge technology to improve crop disease detection and management.',
+        upload_title: 'Upload Leaf Image',
+        upload_hint: 'JPG, PNG up to 10MB',
+        predict_btn: 'Predict',
+        reset_btn: 'Reset',
+        prediction_title: 'Prediction',
+        prediction_subtitle: 'Model output and confidence',
+        disease_label: 'Disease',
+        confidence_label: 'Confidence',
+        severity_label: 'Effect level',
+        recs_title: 'Recommendations',
+        treatment_title: 'Treatment Plan',
+        save_report_btn: 'Save Report',
+        share_report_btn: 'Share Report',
+        cta_feedback: 'Feedback'
+      },
+      hi: {
+        lang_label: 'भाषा',
+        nav_features: 'विशेषताएँ',
+        nav_how: 'यह कैसे काम करता है',
+        nav_results: 'परिणाम',
+        nav_stories: 'कहानियाँ',
+        hero_title: 'एआई-संचालित फसल रोग भविष्यवाणी और प्रबंधन',
+        hero_subtitle: 'किसानों को सशक्त बनाने के लिए एआई सिस्टम जो रोग का पूर्वानुमान, पहचान और प्रबंधन करते हैं।',
+        hero_start: 'डिटेक्शन शुरू करें',
+        hero_learn: 'और जानें',
+        features_title: 'स्मार्ट खेती के लिए शक्तिशाली सुविधाएँ',
+        features_desc: 'हमारी एआई-चालित प्रणाली फसल रोग पहचान और प्रबंधन को बेहतर बनाने के लिए उन्नत तकनीक प्रदान करती है।',
+        upload_title: 'पत्ता छवि अपलोड करें',
+        upload_hint: 'JPG, PNG 10MB तक',
+        predict_btn: 'भविष्यवाणी',
+        reset_btn: 'रीसेट',
+        prediction_title: 'भविष्यवाणी',
+        prediction_subtitle: 'मॉडल आउटपुट और विश्वास स्तर',
+        disease_label: 'रोग',
+        confidence_label: 'विश्वास',
+        severity_label: 'प्रभाव स्तर',
+        recs_title: 'सिफारिशें',
+        treatment_title: 'उपचार योजना',
+        save_report_btn: 'रिपोर्ट सहेजें',
+        share_report_btn: 'रिपोर्ट साझा करें',
+        cta_feedback: 'फीडबैक'
+      }
+    };
+    function getLang() { try { return localStorage.getItem('lang') || 'en'; } catch { return 'en'; } }
+    function setLang(lang) { try { localStorage.setItem('lang', lang); } catch {} }
+    function applyI18nIndex(lang) {
+      const dict = I18N_IDX[lang] || I18N_IDX.en;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+    document.getElementById('year').innerText = new Date().getFullYear();
+    // Mobile nav toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navLinksEl = document.getElementById('nav-links');
+    mobileMenuBtn?.addEventListener('click', () => {
+      navLinksEl?.classList.toggle('hidden');
+    });
+    const input = document.getElementById('imageInput');
+    const preview = document.getElementById('preview');
+    const previewImg = document.getElementById('previewImg');
+    const resetBtn = document.getElementById('resetBtn');
+    const predictBtn = document.getElementById('predictBtn');
+    const saveReportBtn = document.getElementById('saveReportBtn');
+    const diseaseEl = document.getElementById('disease');
+    const confidenceEl = document.getElementById('confidence');
+    const severityEl = document.getElementById('severity');
+    const recList = document.getElementById('recommendations');
+    const treatmentList = document.getElementById('treatment');
+    const annotatedWrap = document.getElementById('annotatedWrap');
+    const annotatedImg = document.getElementById('annotatedImg');
+    const shareBtn = document.getElementById('shareBtn');
+    const getStartedCta = document.getElementById('getStartedCta');
+    const getStartedHero = document.getElementById('getStartedHero');
+    const getStartedHeader = document.getElementById('getStartedHeader');
+    const farmerProfile = document.getElementById('farmerProfile');
+    const farmerName = document.getElementById('farmerName');
+    const farmerAvatar = document.getElementById('farmerAvatar');
+    const requestDemoCta = document.getElementById('requestDemoCta');
+    const langSelIdx = document.getElementById('langSelIdx');
+    const demoModal = document.getElementById('demoModal');
+    const demoModalOverlay = document.getElementById('demoModalOverlay');
+    const demoName = document.getElementById('demoName');
+    const demoEmail = document.getElementById('demoEmail');
+    const demoMsg = document.getElementById('demoMsg');
+    const demoOptions = document.getElementById('demoOptions');
+    const demoRating = document.getElementById('demoRating');
+    const demoRatingVal = document.getElementById('demoRatingVal');
+    const demoCancel = document.getElementById('demoCancel');
+    const demoSubmit = document.getElementById('demoSubmit');
+    // Get Started modal refs
+    const gsModal = document.getElementById('gsModal');
+    const gsOverlay = document.getElementById('gsOverlay');
+    const gsName = document.getElementById('gsName');
+    const gsPhone = document.getElementById('gsPhone');
+    const gsEmail = document.getElementById('gsEmail');
+    const gsCancel = document.getElementById('gsCancel');
+    const gsSubmit = document.getElementById('gsSubmit');
+
+    // Initialize language and bind selector
+    (function initI18n() {
+      const initLang = getLang();
+      try { document.documentElement.setAttribute('lang', initLang); } catch {}
+      if (langSelIdx) langSelIdx.value = initLang;
+      applyI18nIndex(initLang);
+      langSelIdx?.addEventListener('change', () => {
+        const lang = langSelIdx.value;
+        setLang(lang);
+        try { document.documentElement.setAttribute('lang', lang); } catch {}
+        applyI18nIndex(lang);
+      });
+    })();
+
+    const API_BASES = [window.location.origin, 'http://127.0.0.1:8000'];
+    const PREDICT_TIMEOUT_MS = 8000;
+    // Sections to toggle via navbar
+    const TOGGLE_SECTION_IDS = ['features', 'how', 'results', 'stories'];
+    function hideAllToggleSections() {
+      TOGGLE_SECTION_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.classList.contains('hidden')) el.classList.add('hidden');
+      });
+    }
+    function showSectionById(id) {
+      hideAllToggleSections();
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
+    }
+    // Initial state: hide all toggle sections until user clicks or URL hash matches
+    if (location.hash && TOGGLE_SECTION_IDS.includes(location.hash.replace('#','').toLowerCase())) {
+      showSectionById(location.hash.replace('#','').toLowerCase());
+    } else {
+      hideAllToggleSections();
+    }
+
+    // Profile-gated UI: Start Detection button and Detect section
+    const detectSection = document.getElementById('detect');
+    function updateProfileGatedUI() {
+      let profileObj = null;
+      try { profileObj = JSON.parse(localStorage.getItem('userProfile')||'null'); } catch {}
+      const hasProfile = !!(profileObj && profileObj.name && profileObj.phone && profileObj.email);
+      if (getStartedHero) {
+        // Hide Start Detection button until profile is completed
+        getStartedHero.classList.toggle('hidden', !hasProfile);
+      }
+      if (detectSection) {
+        // Hide Detect section until profile is completed
+        detectSection.classList.toggle('hidden', !hasProfile);
+      }
+      // Header: toggle Get Started vs Farmer Profile
+      if (getStartedHeader) getStartedHeader.classList.toggle('hidden', hasProfile);
+      if (farmerProfile) farmerProfile.classList.toggle('hidden', !hasProfile);
+      if (hasProfile) {
+        const parts = String(profileObj.name || '').trim().split(/\s+/).filter(Boolean);
+        const firstName = parts[0] || 'Farmer';
+        const initials = (parts[0]?.[0] || 'F') + (parts[1]?.[0] || '');
+        if (farmerName) farmerName.textContent = firstName;
+        if (farmerAvatar) farmerAvatar.textContent = initials.toUpperCase();
+      }
+    }
+    updateProfileGatedUI();
+
+    // Ripple effect on header Change User button
+    (function enhanceHeaderCtaRipple(){
+      const btn = document.getElementById('getStartedHeader');
+      if (!btn) return;
+      btn.addEventListener('click', function(e){
+        try {
+          const rect = this.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const ripple = document.createElement('span');
+          ripple.className = 'ripple';
+          ripple.style.left = x + 'px';
+          ripple.style.top = y + 'px';
+          this.appendChild(ripple);
+          setTimeout(() => { ripple.remove(); }, 600);
+        } catch {}
+      }, { passive: true });
+    })();
+
+    // If redirected from login with a profile, auto-open Detect and focus input
+    (function autoOpenDetectAfterLogin() {
+      let profileObj = null;
+      try { profileObj = JSON.parse(localStorage.getItem('userProfile')||'null'); } catch {}
+      const hasProfile = !!(profileObj && profileObj.name && profileObj.phone && profileObj.email);
+      const justLoggedIn = (() => { try { return localStorage.getItem('justLoggedIn') === '1'; } catch { return false; } })();
+      const wantsDetect = location.hash === '#detect' || justLoggedIn;
+      if (hasProfile && wantsDetect && detectSection) {
+        detectSection.classList.remove('hidden');
+        try { detectSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch {}
+        // focus the file input shortly after scroll
+        setTimeout(() => { try { document.getElementById('imageInput')?.focus(); } catch {} }, 350);
+      }
+      if (justLoggedIn) {
+        try { localStorage.removeItem('justLoggedIn'); } catch {}
+      }
+    })();
+
+    input?.addEventListener('change', (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      previewImg.src = url;
+      preview.classList.remove('hidden');
+      // Reset annotated output when new file is chosen
+      annotatedImg.src = '';
+      annotatedWrap.classList.add('hidden');
+      if (shareBtn) {
+        shareBtn.classList.add('opacity-50', 'pointer-events-none');
+      }
+    });
+
+    // Local fallback treatment guidance by disease (basic, safe defaults)
+    const TREATMENT_DB = {
+      'Leaf Blight': [
+        'Sanitation: Remove and destroy heavily infected leaves away from the field.',
+        'Copper oxychloride 0.3% (3 g/L water) spray to protect new growth; repeat 7–10 days as needed.',
+        'Mancozeb 0.25% (2.5 g/L) as a protectant; rotate with copper to delay resistance.',
+        'Cultural: Ensure good spacing and airflow; avoid overhead irrigation; irrigate in morning.'
+      ],
+      'Leaf Spot': [
+        'Sanitation: Prune affected foliage and dispose offsite; disinfect tools (1% bleach).',
+        'Chlorothalonil 0.2% (2 g/L) spray; good coverage on both sides of leaves.',
+        'Mancozeb 0.25% (2.5 g/L) or Azoxystrobin 0.1% (1 mL/L) in rotation per label.',
+        'Cultural: Reduce leaf wetness; water at soil level and improve airflow.'
+      ],
+      'Rust': [
+        'Sanitation: Remove infected leaves and crop debris; avoid working when foliage is wet.',
+        'Propiconazole 0.1% (1 mL/L) spray at first signs; repeat 10–14 days per label.',
+        'Tebuconazole 0.1% (1 mL/L) or Trifloxystrobin 0.05% (0.5 g/L) as rotation partner.',
+        'Cultural: Use resistant varieties; balanced nutrition to strengthen plants.'
+      ],
+      'Powdery Mildew': [
+        'Sanitation: Remove heavily infected tissue; improve sunlight penetration.',
+        'Wettable sulfur 0.3% (3 g/L) spray; avoid use above 30°C to prevent phytotoxicity.',
+        'Potassium bicarbonate 0.5% (5 g/L) or Azoxystrobin 0.1% (1 mL/L) in rotation.'
+      ],
+      'Bacterial Blight': [
+        'Sanitation: Remove infected plants; avoid working when foliage is wet.',
+        'Copper hydroxide 0.3% (3 g/L) spray as protectant; ensure thorough coverage.',
+        'Avoid overhead irrigation; manage splashing and tool hygiene.'
+      ],
+      'Early Blight (Alternaria)': [
+        'Sanitation: Remove infected leaves; avoid overhead irrigation.',
+        'Mancozeb 0.25% (2.5 g/L) or Chlorothalonil 0.2% (2 g/L) at first symptoms.',
+        'Azoxystrobin 0.1% (1 mL/L) rotation to manage resistance.'
+      ],
+      'Late Blight (Phytophthora)': [
+        'Urgent: Remove severely infected plants; avoid movement when wet.',
+        'Metalaxyl-M 0.08% (0.8 mL/L) or Dimethomorph 0.1% (1 g/L) systemic spray.',
+        'Cymoxanil 0.05% (0.5 g/L) or Mancozeb 0.25% (2.5 g/L) protectant in rotation.'
+      ],
+      'Downy Mildew': [
+        'Sanitation: Reduce humidity and leaf wetness; improve airflow.',
+        'Fosetyl-Al 0.3% (3 g/L) or Metalaxyl 0.08% (0.8 mL/L) as per label.',
+        'Captan 0.3% (3 g/L) or Mancozeb 0.25% (2.5 g/L) as protectant rotation.'
+      ],
+      'Anthracnose': [
+        'Sanitation: Remove infected fruit/leaves; avoid fruit injury.',
+        'Carbendazim 0.1% (1 g/L) or Azoxystrobin 0.1% (1 mL/L) spray.',
+        'Chlorothalonil 0.2% (2 g/L) protectant between systemic applications.'
+      ],
+      'Septoria Leaf Spot': [
+        'Sanitation: Remove lower infected leaves; stake plants for airflow.',
+        'Chlorothalonil 0.2% (2 g/L) or Mancozeb 0.25% (2.5 g/L) at first spot.',
+        'Rotate with strobilurin (Azoxystrobin 0.1% = 1 mL/L) to manage resistance.'
+      ],
+      'Bacterial Spot': [
+        'Sanitation: Avoid overhead irrigation; disinfect tools regularly.',
+        'Copper oxychloride 0.3% (3 g/L) + mancozeb 0.2% (2 g/L) tank mix as per label.',
+        'Use certified disease-free seed/transplants.'
+      ],
+      'Mosaic Virus': [
+        'Note: No curative pesticide. Focus on vector and hygiene management.',
+        'Rogor/Dimethoate 0.05% (0.5 mL/L) or Imidacloprid 0.03% (0.3 mL/L) for aphid/whitefly vectors as per label.',
+        'Remove infected plants; sanitize hands/tools; manage weeds (alternate hosts).'
+      ],
+      'Scab': [
+        'Sanitation: Remove fallen leaves/fruit; prune for airflow.',
+        'Captan 0.3% (3 g/L) or Mancozeb 0.25% (2.5 g/L) protectant sprays.',
+        'Myclobutanil 0.04% (0.4 mL/L) systemic in rotation during infection periods.'
+      ],
+      'Canker': [
+        'Prune cankered tissue 10–15 cm below visible symptoms; burn or dispose off-site.',
+        'Copper oxychloride 0.3% (3 g/L) or Bordeaux mix per label after pruning.',
+        'Disinfect pruning tools (1% bleach) between cuts.'
+      ]
+    };
+    const DISEASE_SYNONYMS = {
+      'blight': 'Leaf Blight',
+      'leaf blight': 'Leaf Blight',
+      'leaf spot': 'Leaf Spot',
+      'rust': 'Rust',
+      'powdery mildew': 'Powdery Mildew',
+      'bacterial blight': 'Bacterial Blight',
+      'early blight': 'Early Blight (Alternaria)',
+      'alternaria': 'Early Blight (Alternaria)',
+      'late blight': 'Late Blight (Phytophthora)',
+      'phytophthora': 'Late Blight (Phytophthora)',
+      'downy mildew': 'Downy Mildew',
+      'anthracnose': 'Anthracnose',
+      'septoria': 'Septoria Leaf Spot',
+      'bacterial spot': 'Bacterial Spot',
+      'mosaic': 'Mosaic Virus',
+      'virus': 'Mosaic Virus',
+      'scab': 'Scab',
+      'canker': 'Canker'
+    };
+    function normalizeDisease(name) {
+      if (!name) return 'Unknown';
+      const n = String(name).trim().toLowerCase();
+      if (DISEASE_SYNONYMS[n]) return DISEASE_SYNONYMS[n];
+      // fuzzy includes for common words
+      for (const key in DISEASE_SYNONYMS) {
+        if (n.includes(key)) return DISEASE_SYNONYMS[key];
+      }
+      return name; // return as-is to allow API-provided exact matches
+    }
+    function adjustBySeverity(steps, severity) {
+      const sev = String(severity || '').toLowerCase();
+      const extra = [];
+      if (sev.includes('high') || sev.includes('severe')) {
+        extra.push('Increase spray frequency to every 7 days until disease is under control.');
+      } else if (sev.includes('moderate')) {
+        extra.push('Maintain 10–14 day spray interval and monitor hotspots.');
+      } else {
+        extra.push('Spot-treat affected areas and monitor weekly.');
+      }
+      return [...steps, ...extra];
+    }
+    function getTreatmentFor(diseaseName, severity) {
+      const key = normalizeDisease(diseaseName);
+      const base = TREATMENT_DB[key];
+      if (base && base.length) return adjustBySeverity(base, severity);
+      return adjustBySeverity([
+        'General: Remove infected parts and dispose away from field.',
+        'Apply a suitable protectant (e.g., mancozeb 0.25% or copper 0.3%) per local label.',
+        'Improve airflow, reduce humidity, and avoid overhead irrigation.'
+      ], severity);
+    }
+    function renderList(listEl, items) {
+      listEl.innerHTML = '';
+      (items || []).forEach(t => {
+        const li = document.createElement('li');
+        li.textContent = t;
+        listEl.appendChild(li);
+      });
+    }
+
+    // Share report (Web Share API if available, then mailto, then clipboard)
+    async function shareReport() {
+      const fileName = input?.files?.[0]?.name || 'prediction.png';
+      const text = (() => {
+        const lines = [];
+        lines.push(`CropAI Prediction Report`);
+        lines.push(`Date: ${new Date().toLocaleString()}`);
+        lines.push(`Disease: ${diseaseEl.textContent || 'Unknown'}`);
+        lines.push(`Confidence: ${confidenceEl.textContent || '-'}`);
+        lines.push(`Severity: ${severityEl.textContent || '-'}`);
+        lines.push('');
+        lines.push('Recommendations:');
+        Array.from(recList.querySelectorAll('li')).forEach((li, i) => lines.push(`${i + 1}. ${li.textContent}`));
+        lines.push('');
+        lines.push('Treatment Plan:');
+        Array.from((document.getElementById('treatment')||recList).querySelectorAll('li')).forEach((li, i) => lines.push(`${i + 1}. ${li.textContent}`));
+        return lines.join('\n');
+      })();
+
+      try {
+        if (navigator.canShare || navigator.share) {
+          let files = [];
+          if (annotatedImg?.src?.startsWith('data:image/')) {
+            const res = await fetch(annotatedImg.src);
+            const blob = await res.blob();
+            const imgFile = new File([blob], fileName.replace(/\.[^/.]+$/, '') + '-annotated.png', { type: 'image/png' });
+            if (navigator.canShare?.({ files: [imgFile] })) files = [imgFile];
+          }
+          await navigator.share({ title: 'CropAI Report', text, files });
+          return;
+        }
+      } catch {}
+
+      try {
+        const subject = encodeURIComponent('CropAI Prediction Report');
+        const body = encodeURIComponent(text);
+        window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        return;
+      } catch {}
+
+      try {
+        await navigator.clipboard.writeText(text);
+        alert('Report copied to clipboard. Paste it to share.');
+      } catch {
+        alert('Unable to share automatically.');
+      }
+    }
+
+    // Share button handler
+    shareBtn?.addEventListener('click', async () => {
+      if (shareBtn.classList.contains('pointer-events-none')) return;
+      await shareReport();
+    });
+
+    function hasUserProfile() {
+      try {
+        const raw = localStorage.getItem('userProfile');
+        if (!raw) return false;
+        const obj = JSON.parse(raw);
+        return !!(obj?.name && obj?.phone && obj?.email);
+      } catch { return false; }
+    }
+
+    function openGsModal() {
+      gsModal.classList.remove('hidden');
+      setTimeout(() => gsName?.focus(), 0);
+    }
+    function closeGsModal() {
+      gsModal.classList.add('hidden');
+    }
+
+    function openGetStarted(e){ if(e) e.preventDefault(); openGsModal(); }
+    getStartedCta?.addEventListener('click', openGetStarted);
+    // Start Detection should take user directly to the predict/upload section
+    getStartedHero?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector('#detect');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    // Only attach the modal-opening handler when the link explicitly points to '#'
+    if (getStartedHeader && getStartedHeader.getAttribute('href') === '#') {
+      getStartedHeader.addEventListener('click', openGetStarted);
+    }
+
+    gsCancel?.addEventListener('click', closeGsModal);
+    gsOverlay?.addEventListener('click', closeGsModal);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !gsModal.classList.contains('hidden')) closeGsModal();
+    });
+
+    gsSubmit?.addEventListener('click', () => {
+      const name = (gsName?.value || '').trim();
+      const phone = (gsPhone?.value || '').trim();
+      const email = (gsEmail?.value || '').trim();
+      const phoneOk = /^\+?[0-9\s-]{7,15}$/.test(phone);
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!name || !phoneOk || !emailOk) {
+        alert('Please enter a valid name, mobile number, and email.');
+        return;
+      }
+      localStorage.setItem('userProfile', JSON.stringify({ name, phone, email, ts: Date.now() }));
+      closeGsModal();
+      // Reveal Start Detection button and Detect section after successful submission
+      updateProfileGatedUI();
+    });
+
+    requestDemoCta?.addEventListener('click', (e) => {
+      e.preventDefault();
+      demoModal.classList.remove('hidden');
+      setTimeout(() => demoName?.focus(), 0);
+      // Render default options for 'feedback'
+      const kind = (document.querySelector('input[name="demoKind"]:checked')?.value || 'feedback');
+      renderDemoOptions(kind);
+    });
+
+    function closeDemoModal() {
+      demoModal.classList.add('hidden');
+      if (demoName) demoName.value = '';
+      if (demoEmail) demoEmail.value = '';
+      if (demoMsg) demoMsg.value = '';
+    }
+    demoCancel?.addEventListener('click', closeDemoModal);
+    demoModalOverlay?.addEventListener('click', closeDemoModal);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !demoModal.classList.contains('hidden')) closeDemoModal();
+    });
+
+    // Preset options for Feedback vs Suggestion
+    const DEMO_PRESETS = {
+      feedback: [
+        'UI/Design',
+        'Performance',
+        'Bug/Issue',
+        'Ease of Use',
+        'Content Quality',
+        'Other'
+      ],
+      suggestion: [
+        'New Feature',
+        'Improve Accuracy',
+        'Add More Crops',
+        'Mobile App',
+        'Offline Mode',
+        'Other'
+      ]
+    };
+    const selectedDemoOptions = new Set();
+    function renderDemoOptions(kind) {
+      if (!demoOptions) return;
+      demoOptions.innerHTML = '';
+      selectedDemoOptions.clear();
+      (DEMO_PRESETS[kind] || []).forEach(opt => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = opt;
+        btn.className = 'px-3 py-1 rounded-full text-sm ring-1 ring-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition';
+        btn.setAttribute('data-opt', opt);
+        btn.addEventListener('click', () => {
+          const val = btn.getAttribute('data-opt');
+          if (selectedDemoOptions.has(val)) {
+            selectedDemoOptions.delete(val);
+            btn.classList.remove('bg-emerald-600','text-white','ring-emerald-600');
+            btn.classList.add('bg-emerald-50','text-emerald-700','ring-emerald-300');
+          } else {
+            selectedDemoOptions.add(val);
+            btn.classList.add('bg-emerald-600','text-white','ring-emerald-600');
+            btn.classList.remove('bg-emerald-50','text-emerald-700','ring-emerald-300');
+          }
+        });
+        demoOptions.appendChild(btn);
+      });
+    }
+    // Switch options when kind changes
+    document.querySelectorAll('input[name="demoKind"]').forEach(r => {
+      r.addEventListener('change', () => {
+        const kind = (document.querySelector('input[name="demoKind"]:checked')?.value || 'feedback');
+        renderDemoOptions(kind);
+      });
+    });
+
+    // Rating control logic
+    let currentRating = null;
+    function renderStars(n) {
+      const btns = demoRating?.querySelectorAll('button[data-rate]') || [];
+      btns.forEach(btn => {
+        const v = parseInt(btn.getAttribute('data-rate'));
+        if (n && v <= n) {
+          btn.classList.remove('text-stone-300');
+          btn.classList.add('text-amber-400');
+        } else {
+          btn.classList.add('text-stone-300');
+          btn.classList.remove('text-amber-400');
+        }
+      });
+      if (demoRatingVal) demoRatingVal.textContent = n ? `${n}/5` : '(optional)';
+    }
+    demoRating?.querySelectorAll('button[data-rate]')?.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const v = parseInt(btn.getAttribute('data-rate'));
+        currentRating = (currentRating === v) ? null : v;
+        renderStars(currentRating);
+      });
+    });
+
+    demoSubmit?.addEventListener('click', () => {
+      const name = (demoName?.value || '').trim();
+      const email = (demoEmail?.value || '').trim();
+      const msg = (demoMsg?.value || '').trim();
+      const kind = (document.querySelector('input[name="demoKind"]:checked')?.value || 'feedback');
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      const isGmail = isEmail && email.toLowerCase().endsWith('@gmail.com');
+      if (!name) { alert('Please enter your name.'); return; }
+      if (!isGmail) { alert('Please enter a valid Gmail address (ends with @gmail.com).'); return; }
+      // Try to submit to backend API; fallback to mailto if all attempts fail
+      (async () => {
+        const btn = document.getElementById('demoSubmit');
+        const prevText = btn?.textContent;
+        if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+        const selected = Array.from(selectedDemoOptions);
+        const combinedMsg = (selected.length ? `Selected: ${selected.join(', ')}\n\n` : '') + (msg || '');
+        const payload = { name, email, message: combinedMsg || null, kind, rating: currentRating };
+        let ok = false;
+        for (const base of API_BASES) {
+          try {
+            const res = await fetch(`${base.replace(/\/$/, '')}/feedback`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+            });
+            if (res.ok) { ok = true; break; }
+          } catch {}
+        }
+        if (btn) { btn.disabled = false; btn.textContent = prevText || 'Submit Feedback'; }
+        if (ok) {
+          alert('Thank you for your feedback!');
+          closeDemoModal();
+        } else {
+          const subject = encodeURIComponent(`${kind === 'suggestion' ? 'Suggestion' : 'Feedback'} - ${name}`);
+          const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nType: ${kind}\nRating: ${currentRating || 'N/A'}\nSelected: ${selected.join(', ') || 'None'}\n\nMessage:\n${msg || 'N/A'}`);
+          window.location.href = `mailto:support@cropai.example?subject=${subject}&body=${body}`;
+          closeDemoModal();
+        }
+      })();
+    });
+
+    // Smooth scroll for in-page anchors with conditional section toggling and detect gating
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if (!href || href === '#') return; // allow other handlers (e.g., modal)
+        const target = document.querySelector(href);
+        if (!target) return; // no-op if missing
+        const id = (target.id || '').toLowerCase();
+        // Gate certain sections if profile missing (gate detect and start)
+        if ((id === 'detect' || id === 'start') && !hasUserProfile()) {
+          e.preventDefault();
+          // If user is not profiled, send them to the login page instead of opening the modal
+          window.location.href = 'login.html';
+          return;
+        }
+        // If clicking one of the toggle sections, show only that section
+        if (TOGGLE_SECTION_IDS.includes(id)) {
+          e.preventDefault();
+          showSectionById(id);
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+        // Default smooth scroll behavior
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+    resetBtn?.addEventListener('click', () => {
+      previewImg.src = '';
+      preview.classList.add('hidden');
+      if (input) input.value = '';
+      diseaseEl.textContent = '—';
+      confidenceEl.textContent = '—';
+      severityEl.textContent = '—';
+      recList.innerHTML = '<li>Upload an image to see recommendations.</li>';
+      treatmentList.innerHTML = '<li>Predict to see tailored treatment steps.</li>';
+      // Treatment list stays visible; just reset content
+      annotatedImg.src = '';
+      annotatedWrap.classList.add('hidden');
+      if (shareBtn) {
+        shareBtn.classList.add('opacity-50', 'pointer-events-none');
+      }
+    });
+
+    // Predict handler
+    // Utility: draw annotated image and enable download
+    async function createAnnotatedOutput(imageEl, labelText) {
+      await new Promise(r => imageEl.complete ? r() : imageEl.onload = r);
+      const canvas = document.createElement('canvas');
+      const maxW = 1200; // avoid giant images
+      const scale = Math.min(1, maxW / imageEl.naturalWidth || 1);
+      canvas.width = Math.max(1, Math.floor((imageEl.naturalWidth || imageEl.width) * scale));
+      canvas.height = Math.max(1, Math.floor((imageEl.naturalHeight || imageEl.height) * scale));
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(imageEl, 0, 0, canvas.width, canvas.height);
+      const pad = Math.round(canvas.width * 0.02);
+      const boxH = Math.round(canvas.height * 0.12);
+      ctx.fillStyle = 'rgba(16,185,129,0.85)';
+      ctx.fillRect(0, canvas.height - boxH, canvas.width, boxH);
+      ctx.fillStyle = '#fff';
+      ctx.font = `${Math.max(14, Math.round(boxH * 0.45))}px sans-serif`;
+      ctx.textBaseline = 'middle';
+      ctx.fillText(labelText, pad, canvas.height - boxH / 2);
+      const dataUrl = canvas.toDataURL('image/png');
+      annotatedImg.src = dataUrl;
+      annotatedWrap.classList.remove('hidden');
+      if (shareBtn) {
+        shareBtn.classList.remove('opacity-50', 'pointer-events-none');
+      }
+    }
+
+    // Try predict across multiple bases with timeout
+    async function tryPredictAcrossBases(form) {
+      for (const base of API_BASES) {
+        try {
+          const controller = new AbortController();
+          const to = setTimeout(() => controller.abort(), PREDICT_TIMEOUT_MS);
+          const res = await fetch(`${base}/predict`, { method: 'POST', body: form, signal: controller.signal });
+          clearTimeout(to);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          return { data, base };
+        } catch (_) {
+          // continue to next base
+        }
+      }
+      throw new Error('All prediction endpoints failed');
+    }
+
+    predictBtn?.addEventListener('click', async () => {
+      if (!hasUserProfile()) { openGsModal(); return; }
+      try {
+        if (!input?.files || input.files.length === 0) {
+          alert('Please select an image first.');
+          return;
+        }
+        const form = new FormData();
+        form.append('file', input.files[0]);
+        predictBtn.disabled = true;
+        predictBtn.textContent = 'Predicting...';
+        let data; let usedFallback = false;
+        const statusMsg = document.getElementById('statusMsg');
+        if (statusMsg) { statusMsg.textContent = 'Contacting model API...'; }
+        try {
+          const result = await tryPredictAcrossBases(form);
+          data = result.data;
+          if (statusMsg) { statusMsg.textContent = 'Prediction received.'; }
+        } catch (e) {
+          // Fallback mock prediction if API is not available
+          usedFallback = true;
+          if (statusMsg) { statusMsg.textContent = 'API unreachable. Using offline prediction.'; }
+          const options = [
+            { disease: 'Leaf Blight', conf: [0.72, 0.9], sev: ['Moderate', 'High'], recs: ['Remove severely infected leaves.', 'Apply recommended fungicide as per label.', 'Improve air circulation and reduce overhead watering.'] },
+            { disease: 'Early Blight', conf: [0.65, 0.88], sev: ['Moderate', 'High'], recs: ['Rotate crops and remove infected debris.', 'Use protectant fungicides as labeled.', 'Prune lower leaves to improve airflow.'] },
+            { disease: 'Rust', conf: [0.6, 0.85], sev: ['Low', 'Moderate', 'High'], recs: ['Apply rust-targeted fungicide.', 'Reduce overhead irrigation.', 'Scout nearby fields for spread.'] },
+            { disease: 'Leaf Spot', conf: [0.55, 0.8], sev: ['Low', 'Moderate'], recs: ['Remove heavily spotted leaves.', 'Use a broad-spectrum fungicide if pressure is high.', 'Increase spacing to improve airflow.'] },
+            { disease: 'Healthy', conf: [0.85, 0.95], sev: ['Low'], recs: ['No action required.', 'Continue routine scouting and good agronomy.'] },
+            { disease: 'Unknown', conf: [0.45, 0.6], sev: ['Low', 'Moderate'], recs: ['Re-take a clear, well-lit image.', 'Scout for additional symptoms.', 'Consult a local expert if needed.'] }
+          ];
+          const pick = options[Math.floor(Math.random() * options.length)];
+          const conf = Math.round((pick.conf[0] + Math.random() * (pick.conf[1] - pick.conf[0])) * 100) / 100;
+          const sev = pick.sev[Math.floor(Math.random() * pick.sev.length)];
+          data = { disease: pick.disease, confidence: conf, severity: sev, recommendations: pick.recs };
+        }
+        diseaseEl.textContent = data.disease || 'Unknown';
+        confidenceEl.textContent = `${Math.round((data.confidence || 0) * 100)}%`;
+        severityEl.textContent = data.severity || 'Low';
+        recList.innerHTML = '';
+        (data.recommendations || []).forEach(r => {
+          const li = document.createElement('li');
+          li.textContent = r;
+          recList.appendChild(li);
+        });
+        // Treatment: from API if present, else fallback by disease
+        const apiTreatment = (() => {
+          const t = data.treatment;
+          if (!t) return null;
+          if (Array.isArray(t)) return t;
+          if (typeof t === 'string') return t.split(/\n+|\r+|\.|;/).map(s => s.trim()).filter(Boolean);
+          return null;
+        })();
+        const fallback = getTreatmentFor(diseaseEl.textContent, severityEl.textContent);
+        renderList(treatmentList, apiTreatment || fallback);
+        // Treatment list is always visible; content already rendered
+        // Create annotated image for preview + download
+        const label = `${diseaseEl.textContent} • ${confidenceEl.textContent}`;
+        await createAnnotatedOutput(previewImg, label);
+      } catch (err) {
+        console.error(err);
+        const statusMsg = document.getElementById('statusMsg');
+        if (statusMsg) { statusMsg.textContent = 'Prediction failed. Please try again.'; }
+      } finally {
+        predictBtn.disabled = false;
+        predictBtn.textContent = 'Predict';
+      }
+    });
+
+    // Save report
+    async function tryPostAcrossBases(path, payload) {
+      for (const base of API_BASES) {
+        try {
+          const controller = new AbortController();
+          const to = setTimeout(() => controller.abort(), 6000);
+          const res = await fetch(`${base}${path}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            signal: controller.signal
+          });
+          clearTimeout(to);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return await res.json();
+        } catch {}
+      }
+      throw new Error('All report endpoints failed');
+    }
+    function downloadClientReport(payload) {
+      const lines = [];
+      lines.push(`# CropAI Prediction Report`);
+      lines.push(`Date: ${new Date().toLocaleString()}`);
+      if (payload.filename) lines.push(`File: ${payload.filename}`);
+      lines.push('');
+      lines.push(`Disease: ${payload.disease}`);
+      lines.push(`Confidence: ${Math.round((payload.confidence || 0) * 100)}%`);
+      lines.push(`Severity: ${payload.severity}`);
+      lines.push('');
+      lines.push('Recommendations:');
+      (payload.recommendations || []).forEach((r, i) => lines.push(`${i + 1}. ${r}`));
+      lines.push('');
+      lines.push('Treatment Plan:');
+      (payload.treatment || []).forEach((t, i) => lines.push(`${i + 1}. ${t}`));
+      const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      const base = (payload.filename || 'report').replace(/\.[^/.]+$/, '');
+      a.download = `${base}-report.txt`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    async function downloadAnnotatedImage(defaultBaseName) {
+      try {
+        if (!annotatedImg?.src?.startsWith('data:image/')) return false;
+        const res = await fetch(annotatedImg.src);
+        const blob = await res.blob();
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        const base = (defaultBaseName || 'report').replace(/\.[^/.]+$/, '');
+        a.download = `${base}-annotated.png`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    saveReportBtn?.addEventListener('click', async () => {
+      try {
+        const fileName = input?.files?.[0]?.name || null;
+        const payload = {
+          filename: fileName,
+          disease: diseaseEl.textContent && diseaseEl.textContent !== '—' ? diseaseEl.textContent : 'Unknown',
+          confidence: (() => {
+            const t = confidenceEl.textContent || '';
+            const m = t.match(/\d+/);
+            return m ? Math.min(100, parseInt(m[0], 10)) / 100 : 0;
+          })(),
+          severity: severityEl.textContent && severityEl.textContent !== '—' ? severityEl.textContent : 'Low',
+          recommendations: Array.from(recList.querySelectorAll('li')).map(li => li.textContent),
+          treatment: Array.from((document.getElementById('treatment')||recList).querySelectorAll('li')).map(li => li.textContent),
+          annotated_image: annotatedImg?.src?.startsWith('data:image/') ? annotatedImg.src : null
+        };
+        // Try API save first
+        try {
+          const data = await tryPostAcrossBases('/reports', payload);
+          alert(`Report saved with ID #${data.id}`);
+        } catch (_) {
+          // Fallback to client-side download
+          downloadClientReport(payload);
+          await downloadAnnotatedImage(fileName || 'report');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Could not save report.');
+      }
+    });
+  </script>

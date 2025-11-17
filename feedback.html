@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CropAI</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header>
+    <h1>CropAI</h1>
+    <p>Offline diagnosis and reporting</p>
+  </header>
+
+  <main>
+    <section id="predict-section" class="card">
+      <h2>Predict</h2>
+      <input type="file" id="imageInput" accept="image/*" capture="environment">
+      <button id="predictBtn">Analyze</button>
+      <div id="predictResult" class="result hidden"></div>
+    </section>
+
+    <section id="report-section" class="card hidden">
+      <h2>Save Report</h2>
+      <label>Filename</label>
+      <input type="text" id="filenameInput" placeholder="image.jpg">
+      <button id="saveReportBtn">Save</button>
+      <div id="reportSaved" class="muted"></div>
+    </section>
+
+    <section id="reports-list" class="card">
+      <h2>Reports</h2>
+      <button id="refreshReportsBtn">Refresh</button>
+      <ul id="reportsUl"></ul>
+    </section>
+
+    <section id="feedback" class="card">
+      <h2>Feedback</h2>
+      <input type="text" id="fbName" placeholder="Name">
+      <input type="email" id="fbEmail" placeholder="Email (@gmail.com)">
+      <select id="fbKind">
+        <option value="feedback">Feedback</option>
+        <option value="suggestion">Suggestion</option>
+      </select>
+      <input type="number" id="fbRating" min="1" max="5" placeholder="Rating (1-5)">
+      <textarea id="fbMsg" placeholder="Message"></textarea>
+      <button id="fbSend">Send</button>
+      <div id="fbStatus" class="muted"></div>
+    </section>
+  </main>
+
+  <footer>
+    <small>Runs locally. Connect phone to same Wi‑Fi and open this page from your PC's IP.</small>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

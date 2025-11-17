@@ -1,0 +1,16 @@
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif;background:#0b1220;color:#e6e8ee}
+header,footer{padding:16px;text-align:center}
+header h1{margin:0;font-size:20px}
+header p{margin:4px 0 0;color:#9aa3b2}
+main{padding:12px;max-width:760px;margin:0 auto}
+.card{background:#121a2b;border:1px solid #1f2a44;border-radius:12px;padding:12px;margin:12px 0}
+.card h2{margin:0 0 8px;font-size:16px}
+input,select,button,textarea{width:100%;margin:6px 0;padding:10px;border-radius:8px;border:1px solid #2a375a;background:#0e1626;color:#e6e8ee}
+button{background:#2c7be5;border:0;cursor:pointer}
+button:disabled{opacity:.6;cursor:not-allowed}
+.result{white-space:pre-wrap;background:#0e1626;border:1px dashed #2a375a;border-radius:8px;padding:10px}
+.hidden{display:none}
+ul{list-style:none;padding:0;margin:0}
+li{padding:8px;border-bottom:1px solid #1f2a44}
+.muted{color:#9aa3b2;margin-top:6px}
+@media(min-width:640px){header h1{font-size:24px}}
